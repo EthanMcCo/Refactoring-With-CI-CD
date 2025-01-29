@@ -1,0 +1,231 @@
+/* As needed students can write additional methods and add attributes */
+
+public class Biosphere
+{
+    //Constant declarations and attributes by James Tam, don't change.
+    public static final int ROWS = 10;
+    public static final int COLS = 10;
+    public static final String LINE = "  - - - - - - - - - -";
+    public static final String HORIZONTAL_COUNT = "  0 1 2 3 4 5 6 7 8 9 ";
+    Taminator tam = new Taminator();
+    public Critter [][] current; 
+    public Critter [][] second = new Critter[ROWS][COLS];//Second state
+    public Critter [][] third = new Critter[ROWS][COLS];
+    Critter [] critterLoc= new Critter[100];
+    int critterCount = 0;
+    int turnSinceBirth = 0;
+    boolean gameRunning = true;
+    boolean birthThisTurn = false;
+    int tamX;
+    int tamY;
+    boolean tamExists = false;
+    boolean regularRules = true;
+    //Original code written by James Tam, don't modify
+    public Biosphere(Critter [][] aWorld)
+    {
+        current = aWorld;
+    }
+    public Biosphere() {
+
+    }
+
+    //The code used by the student was based on the display code written by James Tam
+    public void display() { 
+        //Original code below: student can freely modify to fulfill assignment requirements
+        //(add, delete, change existing code).
+    	int i;
+        int iCounter = 0;
+        System.out.println("\tPrevious\t     Second State\t      TAMINATOR!!");
+        System.out.print(" ");
+        for(i = 0 ;i <ROWS; i++ ) {
+        	System.out.print(" "+i);
+        	if((i==9)&&(iCounter !=2)) {
+        		i=-1;
+        		System.out.print("\t");
+        		System.out.print(" ");
+        		iCounter++;
+        	}
+        }
+        System.out.println();
+        worldBody();
+        System.out.print(" ");
+        copyArray(current,tam.thirdState);
+        copyArray(third,tam.thirdState);
+       
+        }
+    public void worldBody() {
+    	int cCounter = 0;
+    	if(regularRules) {
+    		updateLocations();
+        	copyArray(second,current);
+    		for (int i =0; i<critterCount;i++) {//applies deaths and births to second[][]
+        		births(i);
+        		deaths(i);
+        	}
+    	}
+    	findT();
+    	tam.inputArray(second);
+    	if(tamExists) {
+    		tam.searchPerim(tamX,tamY,tamExists);
+    	}
+		for(int r = 0; r<ROWS;r++) {
+			for(int i = 0; i<3; i++) {
+				System.out.print(LINE);
+				System.out.print("\t");
+			}
+			System.out.println();
+			System.out.print(r);
+			for(int c = 0; c<COLS;c++) {
+				
+				if (cCounter == 0) {
+					System.out.print("|"+current[r][c]);
+				} else if(cCounter ==1) {
+					System.out.print("|" +second[r][c]);
+				} else {
+					System.out.print("|"+tam.thirdState[r][c]);
+				}
+						
+				if ((c==9)&&(cCounter !=2)) {
+					
+					System.out.print("|\t");
+					System.out.print(r);
+					c=-1;
+					cCounter++;
+				}
+			}
+			cCounter = 0;
+			System.out.println("|");
+		}
+		System.out.println(LINE+"\t"+LINE+"\t"+LINE);
+    }
+    public Critter copyCritter(char letter) {
+    	Critter C = null;
+    	Critter T = null;
+    	if((letter == ' ')||(letter == '*')) {
+			C = new Critter(letter);
+			return C;
+		}else {
+			T = new Taminator(letter);
+			return T;
+		}
+    }
+    public void copyArray(Critter[][] getCopy, Critter[][] setCopy) {//first value is going to be the copy and the second array is going to be the thing that's recieved the copy
+    	for(int r = 0; r<ROWS; r++) {
+    		for (int c = 0; c<COLS; c++) {
+    			getCopy[r][c] = copyCritter(setCopy[r][c].getAppearance());
+    		}
+    	}
+    }  
+    public void findT() {
+    	int r,c;
+    	for(r=0;r<ROWS;r++) {
+    		for(c=0;c<COLS;c++) {
+    			if (second[r][c].getAppearance() == 'T') {
+					tamX = r;
+					tamY = c;
+					tamExists = true;
+				}
+    		}
+    	}
+    }
+    
+// Rather than iterating through all 100 squares then subsequently search all 8 squares around that to spot stars to see if that space 
+// matches the birth condition I decided it made more sense to just iterate through the 8 surrounding squares of all spaces next to a star.
+// if there's no star even near the spot you're checking for birth conditions why even check it just wastes memory/time.
+    public void births(int index) {
+    	int row,col;
+    	int neighbours = 0; 
+    	if (critterLoc[index].getAppearance() == '*') {
+    		row = critterLoc[index].getRow();//looks for a space around the critter at that index
+    		col = critterLoc[index].getCol();
+    		for(int r = row-1; r<row+2;r++) {
+    			for(int c = col-1; c<col+2;c++ ) {
+    				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
+    					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
+    						int tempRow = r;
+    						int tempCol = c;
+    						for(int y = tempRow-1; y<tempRow+2;y++) {
+    							for(int x = tempCol-1; x<tempCol+2; x++) {
+    								if((x <= 9)&&(y <= 9)&&(x > - 1)&&(y > -1)) {
+    									if(current[y][x].getAppearance() == '*') {
+    										neighbours++;
+    										if(neighbours == 3) {
+    											second[tempRow][tempCol].setAppearance('*');
+    											critterLoc[critterCount] = new Critter(tempRow,tempCol,true,'*');
+    											critterCount++;
+    											birthThisTurn = true;
+    										} else if(neighbours == 4) {
+    											second[tempRow][tempCol].setAppearance(' ');
+    											critterLoc[critterCount] = new Critter(tempRow,tempCol,false,' ');
+    											critterCount--;
+    											birthThisTurn = false;
+    										} 
+    									}
+    								}
+    							}
+    						}	
+    						neighbours = 0;
+    					} 
+    				}
+    			}
+    		}
+    	}
+    }
+    public void deaths(int index) {
+    	int r;
+    	int c;
+    	int row,col;
+    	int neighbours = 0;
+    	if((critterLoc[index].getAppearance() == '*')&&(critterLoc[index].getBirth() == false)) {
+    		row = critterLoc[index].getRow();
+    		col = critterLoc[index].getCol();
+    		
+    		for(r = row-1; r<row+2; r++) {
+        		for(c = col-1; c<col+2; c++) {
+        			if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {
+        				if((current[r][c].getAppearance() == '*')) {
+        					neighbours++;
+        				}
+        			}
+        		}
+        	}
+    		neighbours--;//Deletes when it counts itself
+    		if((neighbours !=2)&&(neighbours !=3)) {
+    			second[row][col].setAppearance(' ');
+    			critterLoc[index].setAppearance(' ');
+    		}
+    	}
+    }
+    public void updateLocations() {
+    	int r,c;
+    	critterCount = 0;
+    	for(r=0;r<ROWS;r++) {
+    		for(c=0;c<COLS;c++) {
+    			if(current[r][c].getAppearance() == '*') {
+					critterLoc[critterCount] = new Critter(r,c,false,'*');
+					critterCount++;
+				} 
+    		}
+    	}
+    }
+    
+   
+    //Original code written by James Tam, don't modify
+    // getCurrent() used by    
+    public Critter [][] getCurrent() 
+    {
+        return(current);
+    }
+    public Critter [][] getSecond(){
+    	return(second);
+    }
+
+    //Original code written by James Tam
+    public void runTurn()
+    {
+        //Original code below: student can freely modify to fulfill assignment requirements
+        //(add, delete, change existing code).
+         display();
+    }
+
+}
