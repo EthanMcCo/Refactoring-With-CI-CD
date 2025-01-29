@@ -12,15 +12,12 @@ import java.util.Scanner;
 
 
 public class GamePanel extends JPanel implements ActionListener{
-	static final int HEIGHT_SECOND_WINDOW = 800;
-	static final int WIDTH_SECOND_WINDOW = 800;
-	static final int WIDTH = 1100;
-	static final int HEIGHT_THIRD = 250;
-	static final int WIDTH_THIRD = 250;
-	static final int GRID_SIZEH = (HEIGHT_SECOND_WINDOW-100)/10;
-	static final int GRID_SIZEW = (WIDTH_SECOND_WINDOW-100)/10;
-	static final int GRIDH= HEIGHT_THIRD/10;
-	static final int GRIDW= WIDTH_THIRD/10;
+	//removed duplicate constants
+	static final int LARGE_WINDOW = 800;	//refactored to be "LRG_WINDOW" since window is square
+	static final int PANEL_WIDTH = 1100;	//more appropiate name for this constant
+	static final int SMALL_WIN = 250;		//refactored to be "SMALL_WIN" since windows are square also clarity
+	static final int LARGE_GRID = (LARGE_WINDOW-100)/10;	//refactored to be "Large_Grid" since grid boxes are square
+	static final int SMALL_GRID= SMALL_WIN/10;	//refactored grid to specify "SMALL_GRID" since grid size is always square
 	static final int BORDER = 50;
 	final int DELAY = 300;
 	Biosphere regular = new Biosphere(FileInitialization.read());
@@ -31,7 +28,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	Critter[][] thirdPanel = new Critter[regular.ROWS][regular.COLS];
 	public GamePanel() {
 		regular.copyArray(previousPanel,regular.current);
-		this.setPreferredSize(new Dimension(WIDTH,HEIGHT_SECOND_WINDOW));
+		this.setPreferredSize(new Dimension(PANEL_WIDTH,LARGE_WINDOW));
 		this.setBackground(Color.gray);
 		this.setFocusable(true);
 		this.addKeyListener(new MyKeyAdapter());
@@ -51,32 +48,39 @@ public class GamePanel extends JPanel implements ActionListener{
 		drawThirdState(g);
 		drawPrevState(g);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g.drawString("Press Enter To Move", WIDTH_SECOND_WINDOW+BORDER/2+3, HEIGHT_SECOND_WINDOW/2);
+		g.drawString("Press Enter To Move", LARGE_WINDOW+BORDER/2+3, LARGE_WINDOW/2);
 	}
+
+	//there are 3 windows this function will take the dimensions for those 3 windows and draw then on our panel
+	public void drawWindows(Graphics g, int x, int y, int winSize, int gridSize){
+		int r,c;
+		g.setColor(Color.gray);
+	}
+
 	public void drawThirdState(Graphics g) {
 		int r,c;
 		g.setColor(Color.gray);
-		g.fillRect(WIDTH_SECOND_WINDOW, WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD, HEIGHT_THIRD , WIDTH_THIRD);
+		g.fillRect(LARGE_WINDOW, LARGE_WINDOW-BORDER-SMALL_WIN, SMALL_WIN , SMALL_WIN);
 		for (r = 0; r<regular.ROWS; r++) {
 			g.setColor(Color.black);
 			g.setFont(new Font("TimesRoman", Font.PLAIN,15));
-			g.drawString(""+r, GRIDW+WIDTH_SECOND_WINDOW-45, r*GRIDH+WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD+18);
-			g.drawString(""+r, r*GRIDW+WIDTH_SECOND_WINDOW+8, GRIDH+WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD-30);
+			g.drawString(""+r, SMALL_GRID+LARGE_WINDOW-45, r* +LARGE_WINDOW-BORDER-SMALL_WIN+18);
+			g.drawString(""+r, r*SMALL_GRID+LARGE_WINDOW+8, SMALL_GRID+LARGE_WINDOW-BORDER-SMALL_WIN-30);
 			g.setFont(new Font("TimesRoman", Font.BOLD,15));
-			g.drawString("Taminator State", GRIDW+WIDTH_SECOND_WINDOW+50, GRIDH+WIDTH_SECOND_WINDOW-BORDER*2-HEIGHT_THIRD);
+			g.drawString("Taminator State", SMALL_GRID+LARGE_WINDOW+50, SMALL_GRID+LARGE_WINDOW-BORDER*2-SMALL_WIN);
 			for (c= 0; c<regular.COLS; c++) {
 				if(thirdPanel[r][c].getAppearance() == '*') {
 					g.setColor(Color.yellow);
-					g.fillRect(c*GRIDW+WIDTH_SECOND_WINDOW, r*GRIDH+WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD, GRIDH, GRIDH);
+					g.fillRect(c*SMALL_GRID+LARGE_WINDOW, r*SMALL_GRID+LARGE_WINDOW-BORDER-SMALL_WIN, SMALL_GRID, SMALL_GRID);
 				}else if(thirdPanel[r][c].getAppearance() == 'T') {
 					g.setColor(Color.red);
-					g.fillRect(c*GRIDW+WIDTH_SECOND_WINDOW, r*GRIDH+WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD, GRIDH, GRIDH);
+					g.fillRect(c*SMALL_GRID+LARGE_WINDOW, r*SMALL_GRID+LARGE_WINDOW-BORDER-SMALL_WIN, SMALL_GRID, SMALL_GRID);
 					g.setColor(Color.black);
 					g.setFont(new Font("TimesRoman", Font.BOLD,20));
-					g.drawString("T", c*GRIDW+WIDTH_SECOND_WINDOW+6, r*GRIDH+WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD+19);
+					g.drawString("T", c*SMALL_GRID+LARGE_WINDOW+6, r*SMALL_GRID+LARGE_WINDOW-BORDER-SMALL_WIN+19);
 				}
 				g.setColor(Color.black);
-				g.drawRect(c*GRIDW+WIDTH_SECOND_WINDOW, r*GRIDH+WIDTH_SECOND_WINDOW-BORDER-HEIGHT_THIRD, GRIDH,GRIDH);
+				g.drawRect(c*SMALL_GRID+LARGE_WINDOW, r*SMALL_GRID+LARGE_WINDOW-BORDER-SMALL_WIN, SMALL_GRID,SMALL_GRID);
 				
 			}
 		}
@@ -84,28 +88,28 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void drawPrevState(Graphics g) {
 		int r,c;
 		g.setColor(Color.gray);
-		g.fillRect(WIDTH_SECOND_WINDOW, BORDER,HEIGHT_THIRD , WIDTH_THIRD);
+		g.fillRect(LARGE_WINDOW, BORDER,SMALL_WIN , SMALL_WIN);
 		for (r = 0; r<regular.ROWS; r++) {
 			g.setColor(Color.black);
 			g.setFont(new Font("TimesRoman", Font.PLAIN,15));
-			g.drawString(""+r, GRIDW+WIDTH_SECOND_WINDOW-45, r*GRIDH+BORDER+18);
-			g.drawString(""+r, r*GRIDW+WIDTH_SECOND_WINDOW+8, GRIDH+BORDER-30);
+			g.drawString(""+r, SMALL_GRID+LARGE_WINDOW-45, r*SMALL_GRID+BORDER+18);
+			g.drawString(""+r, r*SMALL_GRID+LARGE_WINDOW+8, SMALL_GRID+BORDER-30);
 			g.setFont(new Font("TimesRoman", Font.BOLD,15));
-			g.drawString("Previous State", GRIDW+WIDTH_SECOND_WINDOW+50, GRIDH);
+			g.drawString("Previous State", SMALL_GRID+LARGE_WINDOW+50, SMALL_GRID);
 			for (c= 0; c<regular.COLS; c++) {
 				if(previousPanel[r][c].getAppearance() == '*') {
 					g.setColor(Color.yellow);
-					g.fillRect(c*GRIDW+WIDTH_SECOND_WINDOW, r*GRIDH+BORDER, GRIDH, GRIDH);
+					g.fillRect(c*SMALL_GRID+LARGE_WINDOW, r*SMALL_GRID+BORDER, SMALL_GRID, SMALL_GRID);
 				}else if(previousPanel[r][c].getAppearance() == 'T') {
 					g.setColor(Color.red);
-					g.fillRect(c*GRIDW+WIDTH_SECOND_WINDOW, r*GRIDH+BORDER, GRIDH, GRIDH);
+					g.fillRect(c*SMALL_GRID+LARGE_WINDOW, r*SMALL_GRID+BORDER, SMALL_GRID, SMALL_GRID);
 					g.setColor(Color.black);
 					g.setFont(new Font("TimesRoman", Font.BOLD,20));
-					g.drawString("T", c*GRIDW+WIDTH_SECOND_WINDOW+6, r*GRIDH+BORDER+19);
+					g.drawString("T", c*SMALL_GRID+LARGE_WINDOW+6, r*SMALL_GRID+BORDER+19);
 				}
 				
 				g.setColor(Color.black);
-				g.drawRect(c*GRIDW+WIDTH_SECOND_WINDOW, r*GRIDH+BORDER, GRIDH,GRIDH);
+				g.drawRect(c*SMALL_GRID+LARGE_WINDOW, r*SMALL_GRID+BORDER, SMALL_GRID,SMALL_GRID);
 				
 			}
 		}
@@ -113,32 +117,32 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void drawSecondState(Graphics g) {
 		int r,c;
 		g.setColor(Color.white);
-		g.fillRect(0, 0, BORDER, HEIGHT_SECOND_WINDOW);
-		g.fillRect(0, 0, WIDTH_SECOND_WINDOW, BORDER);
-		g.fillRect(WIDTH_SECOND_WINDOW-BORDER, 0, WIDTH_SECOND_WINDOW, HEIGHT_SECOND_WINDOW);
-		g.fillRect(0, HEIGHT_SECOND_WINDOW-BORDER, WIDTH_SECOND_WINDOW, BORDER);
+		g.fillRect(0, 0, BORDER, LARGE_WINDOW);
+		g.fillRect(0, 0, LARGE_WINDOW, BORDER);
+		g.fillRect(LARGE_WINDOW-BORDER, 0, LARGE_WINDOW, LARGE_WINDOW);
+		g.fillRect(0, LARGE_WINDOW-BORDER, LARGE_WINDOW, BORDER);
 		g.setColor(Color.gray);
-		g.fillRect(BORDER, BORDER, WIDTH_SECOND_WINDOW-(BORDER*2), HEIGHT_SECOND_WINDOW-(BORDER*2));
+		g.fillRect(BORDER, BORDER, LARGE_WINDOW-(BORDER*2), LARGE_WINDOW-(BORDER*2));
 		for (r = 0; r<regular.ROWS; r++) {
 			g.setColor(Color.black);
 			g.setFont(new Font("TimesRoman", Font.PLAIN,30));
-			g.drawString(""+r, BORDER-20, r*GRID_SIZEH+90);
-			g.drawString(""+r, r*GRID_SIZEH+84, BORDER-20);
-			g.drawString("^Births and Deaths State^", WIDTH_SECOND_WINDOW/2-130, HEIGHT_SECOND_WINDOW-BORDER/2);
+			g.drawString(""+r, BORDER-20, r*LARGE_GRID+90);
+			g.drawString(""+r, r*LARGE_GRID+84, BORDER-20);
+			g.drawString("^Births and Deaths State^", LARGE_WINDOW/2-130, LARGE_WINDOW-BORDER/2);
 			for (c= 0; c<regular.COLS; c++) {
 				if(secondPanel[r][c].getAppearance() == '*') {
 					g.setColor(Color.yellow);
-					g.fillRect(c*GRID_SIZEW+BORDER, r*GRID_SIZEH+BORDER, GRID_SIZEH, GRID_SIZEH);
+					g.fillRect(c*LARGE_GRID+BORDER, r*LARGE_GRID+BORDER, LARGE_GRID, LARGE_GRID);
 				} else if(previousPanel[r][c].getAppearance() == 'T') {
 					g.setColor(Color.red);
-					g.fillRect(c*GRID_SIZEW+BORDER, r*GRID_SIZEH+BORDER, GRID_SIZEH, GRID_SIZEH);
+					g.fillRect(c*LARGE_GRID+BORDER, r*LARGE_GRID+BORDER, LARGE_GRID, LARGE_GRID);
 					g.setColor(Color.black);
 					g.setFont(new Font("TimesRoman", Font.BOLD,60));
-					g.drawString("T", c*GRID_SIZEW+BORDER+15, r*GRID_SIZEH+BORDER+55);
+					g.drawString("T", c*LARGE_GRID+BORDER+15, r*LARGE_GRID+BORDER+55);
 				}
 				
 				g.setColor(Color.black);
-				g.drawRect(c*GRID_SIZEW+BORDER, r*GRID_SIZEH+BORDER, GRID_SIZEH,GRID_SIZEH);
+				g.drawRect(c*LARGE_GRID+BORDER, r*LARGE_GRID+BORDER, LARGE_GRID,LARGE_GRID);
 				
 			}
 		}
