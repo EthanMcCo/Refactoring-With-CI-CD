@@ -52,9 +52,23 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 
 	//there are 3 windows this function will take the dimensions for those 3 windows and draw then on our panel
-	public void drawWindows(Graphics g, int x, int y, int winSize, int gridSize){
+	public void drawWindows(Graphics g, int x, int y, int winSize, int gridSize, Critter[][] panel){
 		int r,c;
+		//keeps track of where the last grid box was drawn
+		int gridX = x;	
+		int gridY = y;
 		g.setColor(Color.gray);
+		g.fillRect(x,y, winSize, winSize);
+		//from the x/y starting point draw 10x10 or ROWSxROWS number of grid boxes
+		//draw either a T or a * or nothing
+		for (r = 0; r<regular.ROWS; r++) {
+
+		}
+	}
+
+	//this method will draw the coordinates for each window
+	public void drawCoordinates(Graphics g){
+
 	}
 
 	public void drawThirdState(Graphics g) {
@@ -117,10 +131,10 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void drawSecondState(Graphics g) {
 		int r,c;
 		g.setColor(Color.white);
-		g.fillRect(0, 0, BORDER, LARGE_WINDOW);
-		g.fillRect(0, 0, LARGE_WINDOW, BORDER);
-		g.fillRect(LARGE_WINDOW-BORDER, 0, LARGE_WINDOW, LARGE_WINDOW);
-		g.fillRect(0, LARGE_WINDOW-BORDER, LARGE_WINDOW, BORDER);
+		g.fillRect(0, 0, PANEL_WIDTH, PANEL_WIDTH);
+		// g.fillRect(0, 0, LARGE_WINDOW, BORDER);
+		// g.fillRect(LARGE_WINDOW-BORDER, 0, LARGE_WINDOW, LARGE_WINDOW);
+		// g.fillRect(0, LARGE_WINDOW-BORDER, LARGE_WINDOW, BORDER);
 		g.setColor(Color.gray);
 		g.fillRect(BORDER, BORDER, LARGE_WINDOW-(BORDER*2), LARGE_WINDOW-(BORDER*2));
 		for (r = 0; r<regular.ROWS; r++) {
