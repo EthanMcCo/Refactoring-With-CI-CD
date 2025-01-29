@@ -29,6 +29,7 @@ public class Biosphere
 
     }
 
+	
     //The code used by the student was based on the display code written by James Tam
     public void display() { 
         //Original code below: student can freely modify to fulfill assignment requirements
