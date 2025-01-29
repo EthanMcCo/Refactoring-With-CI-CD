@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.util.Scanner;
 
+
 public class GamePanel extends JPanel implements ActionListener{
 	static final int HEIGHT_SECOND_WINDOW = 800;
 	static final int WIDTH_SECOND_WINDOW = 800;
