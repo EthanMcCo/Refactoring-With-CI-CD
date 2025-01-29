@@ -10,7 +10,7 @@ public class Biosphere
     Taminator tam = new Taminator();
     public Critter [][] current; 
     public Critter [][] second = new Critter[ROWS][COLS];//Second state
-    public Critter [][] third = new Critter[ROWS][COLS];
+    public Critter [][] prev = new Critter[ROWS][COLS];
     Critter [] critterLoc= new Critter[100];
     int critterCount = 0;
     int turnSinceBirth = 0;
@@ -24,11 +24,19 @@ public class Biosphere
     public Biosphere(Critter [][] aWorld)
     {
         current = aWorld;
-    }
-    public Biosphere() {
-
+		initArrays();
     }
 
+    public Biosphere() { }
+
+	private void initArrays(){
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLS; j++) {
+				this.second[i][j] = new Critter();
+				this.prev[i][j] = new Critter();
+			}
+		}
+	}
 	
     //The code used by the student was based on the display code written by James Tam
     public void display() { 
@@ -50,9 +58,9 @@ public class Biosphere
         System.out.println();
         worldBody();
         System.out.print(" ");
+		
+        copyArray(prev, current);
         copyArray(current,tam.thirdState);
-        copyArray(third,tam.thirdState);
-       
         }
     public void worldBody() {
     	int cCounter = 0;

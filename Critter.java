@@ -14,7 +14,7 @@ public class Critter
     //Students can make any changes.
     public Critter ()
     {
-	setAppearance(DEFAULT_APPEARANCE);
+	setAppearance(EMPTY);
     }
 
     public Critter(char ch)

@@ -36,14 +36,15 @@ public class GamePanel extends JPanel implements ActionListener{
 	Critter[][] secondPanel = new Critter[regular.ROWS][regular.COLS];
 	Critter[][] thirdPanel = new Critter[regular.ROWS][regular.COLS];
 	public GamePanel() {
-		regular.copyArray(previousPanel,regular.current);
+
+		// regular.copyArray(previousPanel,regular.current);
 		this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
 		this.setBackground(Color.gray);
 		this.setFocusable(true);
 		this.addKeyListener(new MyKeyAdapter());
 		
-		regular.copyArray(secondPanel,regular.current);
-		regular.copyArray(thirdPanel, regular.current);
+		// regular.copyArray(secondPanel,regular.current);
+		// regular.copyArray(thirdPanel, regular.current);
 		startGame();
 	}
 	
@@ -59,9 +60,9 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.fillRect(0, 0, PANEL_WIDTH, PANEL_WIDTH);
 
 		//Using the refactored helper window method instead of 3 seperate methods with duplicated code
-		drawWindow(g, MAIN_WIN_X, MAIN_WIN_Y, LARGE_WIN, LARGE_GRID, secondPanel);
-		drawWindow(g, TAM_WIN_X, TAM_WIN_Y, SMALL_WIN, SMALL_GRID, thirdPanel);
-		drawWindow(g, PREV_WIN_X,PREV_WIN_Y,SMALL_WIN, SMALL_GRID, previousPanel);
+		drawWindow(g, MAIN_WIN_X, MAIN_WIN_Y, LARGE_WIN, LARGE_GRID, regular.current);
+		drawWindow(g, TAM_WIN_X, TAM_WIN_Y, SMALL_WIN, SMALL_GRID, regular.current);  //make this current for now but this needs to change to tam state
+		drawWindow(g, PREV_WIN_X,PREV_WIN_Y,SMALL_WIN, SMALL_GRID, regular.prev);
 
 		//using helper function to draw in text/coordinates for each window
 		drawText(g, TAM_WIN_X, TAM_WIN_Y, SMALL_GRID, "Taminator State");
@@ -133,11 +134,10 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("before this");
 		regular.display();
-		System.out.println("Appearance of PreviousPanel: "+previousPanel[3][3].getAppearance());
-		regular.copyArray(secondPanel,regular.second);
-		regular.copyArray(thirdPanel, regular.third);
+		
+		// regular.copyArray(secondPanel,regular.second);
+		// regular.copyArray(thirdPanel, regular.third);
 		repaint();
 		timer.stop();
 		
@@ -146,7 +146,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		public void keyPressed(KeyEvent e) {
 			switch(e.getKeyCode()) {
 			case KeyEvent.VK_ENTER:
-				regular.copyArray(previousPanel,regular.current);
+				// regular.copyArray(previousPanel,regular.current);
 				timer.start();
 				break;
 			default:
