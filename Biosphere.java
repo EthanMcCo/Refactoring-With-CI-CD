@@ -76,7 +76,7 @@ public class Biosphere
     	}
     	findT();	//finds that taminator and updates our classes variables for it's X/Y/if it exists
     	if(tamExists) {
-    		second = tam.searchPerim(tamX, tamY, second);	//searches the perimeter of the Taminator deleting cells around it
+    		tam.searchPerim(tamX, tamY, second);	//searches the perimeter of the Taminator deleting cells around it
     	}
 		copyArray(tamState, second); //copies the changes made to second into our new tamState array
 		for(int r = 0; r<ROWS;r++) {

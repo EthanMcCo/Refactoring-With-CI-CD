@@ -21,7 +21,7 @@ public class Taminator extends Critter
 
 	//refactored this method to include an array parameter so we can remove thirdstate[][] from this class and keep things together
 	//removed boolean "TamExists" because this function can only run if one does
-    public Critter[][] searchPerim(int tx, int ty, Critter[][] array) {
+    public void searchPerim(int tx, int ty, Critter[][] array) {
     	int r,c;
     	int tamX =tx;
     	int tamY = ty;
@@ -34,11 +34,11 @@ public class Taminator extends Critter
     			}
     		}
     	}
-    	return searchLocation(tamX,tamY, array);
+    	newLocation(tamX,tamY, array);
     	
     }
 	//finds a new location for the taminator
-    public Critter[][] searchLocation(int tx, int ty, Critter[][] array) {
+    public void newLocation(int tx, int ty, Critter[][] array) {
     	int x = rand.nextInt(10);
     	int y = rand.nextInt(10);
     	int tamX = tx;
@@ -47,9 +47,8 @@ public class Taminator extends Critter
     		array[x][y].setAppearance('T');
     		array[tamX][tamY].setAppearance(EMPTY);
     	} else {
-    		searchLocation(tamX,tamY, array);
+    		newLocation(tamX,tamY, array);
     	}
-		return array;
     }
 }
 
