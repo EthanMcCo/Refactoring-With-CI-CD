@@ -1,3 +1,4 @@
+package src.main.java;
 /* As needed students can write additional methods and add attributes */
 
 public class Biosphere
@@ -139,6 +140,20 @@ public class Biosphere
     		}
     	}
     }
+
+	//count neighbors
+	//function returns the number of neighbors of a cell given the x/y coordinate
+	public int numNeighbors(int x, int y, Critter[][] world){
+		int neighbors = 0;
+		for (int r = x - 1; r < x + 2; r++){
+			for (int c = y - 1; c < y + 2; c++){
+				if(!(r > -1 || r < ROWS || c > -1 || c < COLS)) continue; //skips over values outside of our world
+				if(r == x && c == y) continue; //skips over itself
+				if (world[r][c].getAppearance() == '*') neighbors++;
+			}	
+		}
+		return neighbors;
+	}
     
 // Rather than iterating through all 100 squares then subsequently search all 8 squares around that to spot stars to see if that space 
 // matches the birth condition I decided it made more sense to just iterate through the 8 surrounding squares of all spaces next to a star.

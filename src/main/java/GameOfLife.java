@@ -1,3 +1,4 @@
+package src.main.java;
 import java.util.Scanner;
 
 /* No additional methods and nor attributes to be added. */ 
