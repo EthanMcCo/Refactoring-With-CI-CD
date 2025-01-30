@@ -18,11 +18,11 @@ public class Taminator extends Critter
     {
 	super(newAppearance);
     }
-	
+
 	//refactored this method to include an array parameter so we can remove thirdstate[][] from this class and keep things together
 	//removed boolean "TamExists" because this function can only run if one does
     public Critter[][] searchPerim(int tx, int ty, Critter[][] array) {
-    	int r,c,x,y;
+    	int r,c;
     	int tamX =tx;
     	int tamY = ty;
     	for(r = tamX-1; r<tamX+2;r++) {
