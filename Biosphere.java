@@ -11,6 +11,7 @@ public class Biosphere
     public Critter [][] current; 
     public Critter [][] second = new Critter[ROWS][COLS];//Second state
     public Critter [][] prev = new Critter[ROWS][COLS];
+	public Critter [][] tamState = new Critter[ROWS][COLS];		//rather than having a tamState array in the Taminator class move it here
     Critter [] critterLoc= new Critter[100];
     int critterCount = 0;
     int turnSinceBirth = 0;
@@ -60,8 +61,9 @@ public class Biosphere
         System.out.print(" ");
 		
         copyArray(prev, current);
-        copyArray(current,tam.thirdState);
-        }
+        copyArray(current,tamState);
+    }
+
     public void worldBody() {
     	int cCounter = 0;
     	if(regularRules) {
@@ -72,11 +74,11 @@ public class Biosphere
         		deaths(i);
         	}
     	}
-    	findT();
-    	tam.inputArray(second);
+    	findT();	//finds that taminator and updates our classes variables for it's X/Y/if it exists
     	if(tamExists) {
-    		tam.searchPerim(tamX,tamY,tamExists);
+    		second = tam.searchPerim(tamX, tamY, second);	//searches the perimeter of the Taminator deleting cells around it
     	}
+		copyArray(tamState, second); //copies the changes made to second into our new tamState array
 		for(int r = 0; r<ROWS;r++) {
 			for(int i = 0; i<3; i++) {
 				System.out.print(LINE);
@@ -91,7 +93,7 @@ public class Biosphere
 				} else if(cCounter ==1) {
 					System.out.print("|" +second[r][c]);
 				} else {
-					System.out.print("|"+tam.thirdState[r][c]);
+					System.out.print("|"+tamState[r][c]);
 				}
 						
 				if ((c==9)&&(cCounter !=2)) {
@@ -205,6 +207,7 @@ public class Biosphere
     		}
     	}
     }
+	//searches through the world and updates an array that tracks critters
     public void updateLocations() {
     	int r,c;
     	critterCount = 0;
