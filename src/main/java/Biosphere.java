@@ -163,47 +163,35 @@ public class Biosphere
     public void births(int index) {
     	int row,col;
     	int neighbours = 0; 
-    	if (critterLoc[index].getAppearance() == '*') {
-    		row = critterLoc[index].getRow();//looks for a space around the critter at that index
-    		col = critterLoc[index].getCol();
-    		for(int r = row-1; r<row+2;r++) {
-    			for(int c = col-1; c<col+2;c++ ) {
-    				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
-    					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
-							neighbours = numNeighbors(r, c, current);
-							if(neighbours == 3) {
-								second[r][c].setAppearance('*');
-								critterLoc[critterCount] = new Critter(r,c,true,'*');
-								critterCount++;
-								birthThisTurn = true;
-							}
-    						neighbours = 0;
-    					} 
-					}
-    			}
-    		}
-    	}
+		row = critterLoc[index].getRow(); //looks for a space around the critter at that index
+		col = critterLoc[index].getCol();
+		for(int r = row-1; r<row+2;r++) {
+			for(int c = col-1; c<col+2;c++ ) {
+				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
+					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
+						neighbours = numNeighbors(r, c, current);
+						if(neighbours == 3) {
+							second[r][c].setAppearance('*');
+							critterLoc[critterCount] = new Critter(r,c,true,'*');
+							critterCount++;
+							birthThisTurn = true;
+						}
+						neighbours = 0;
+					} 
+				}
+			}
+		}
     }
     public void deaths(int index) {
-    	int r;
-    	int c;
     	int row,col;
     	int neighbours = 0;
     	if((critterLoc[index].getAppearance() == '*')&&(critterLoc[index].getBirth() == false)) {
     		row = critterLoc[index].getRow();
     		col = critterLoc[index].getCol();
-    		
-    		for(r = row-1; r<row+2; r++) {
-        		for(c = col-1; c<col+2; c++) {
-        			if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {
-        				if((current[r][c].getAppearance() == '*')) {
-        					neighbours++;
-        				}
-        			}
-        		}
-        	}
-    		neighbours--;//Deletes when it counts itself
-    		if((neighbours !=2)&&(neighbours !=3)) {
+
+			neighbours = numNeighbors(row, col, current);
+
+    		if((neighbours !=2) && (neighbours !=3)) {
     			second[row][col].setAppearance(' ');
     			critterLoc[index].setAppearance(' ');
     		}
