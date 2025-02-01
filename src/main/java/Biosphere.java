@@ -170,31 +170,16 @@ public class Biosphere
     			for(int c = col-1; c<col+2;c++ ) {
     				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
     					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
-    						int tempRow = r;
-    						int tempCol = c;
-    						for(int y = tempRow-1; y<tempRow+2;y++) {
-    							for(int x = tempCol-1; x<tempCol+2; x++) {
-    								if((x <= 9)&&(y <= 9)&&(x > - 1)&&(y > -1)) {
-    									if(current[y][x].getAppearance() == '*') {
-    										neighbours++;
-    										if(neighbours == 3) {
-    											second[tempRow][tempCol].setAppearance('*');
-    											critterLoc[critterCount] = new Critter(tempRow,tempCol,true,'*');
-    											critterCount++;
-    											birthThisTurn = true;
-    										} else if(neighbours == 4) {
-    											second[tempRow][tempCol].setAppearance(' ');
-    											critterLoc[critterCount] = new Critter(tempRow,tempCol,false,' ');
-    											critterCount--;
-    											birthThisTurn = false;
-    										} 
-    									}
-    								}
-    							}
-    						}	
+							neighbours = numNeighbors(r, c, current);
+							if(neighbours == 3) {
+								second[r][c].setAppearance('*');
+								critterLoc[critterCount] = new Critter(r,c,true,'*');
+								critterCount++;
+								birthThisTurn = true;
+							}
     						neighbours = 0;
     					} 
-    				}
+					}
     			}
     		}
     	}
