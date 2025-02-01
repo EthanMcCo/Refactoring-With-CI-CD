@@ -149,7 +149,7 @@ public class Biosphere
 		int neighbors = 0;
 		for (int r = x - 1; r < x + 2; r++){
 			for (int c = y - 1; c < y + 2; c++){
-				if(!(r > -1 || r < ROWS || c > -1 || c < COLS)) continue; //skips over values outside of our world
+				if((r < 0) || (r >= ROWS) || (c < 0) || (c >= COLS)) continue; //skips over values outside of our world
 				if(r == x && c == y) continue; //skips over itself
 				if (world[r][c].getAppearance() == '*') neighbors++;
 			}	
