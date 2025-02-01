@@ -1,5 +1,7 @@
 package src.main.java;
 /* As needed students can write additional methods and add attributes */
+import src.main.java.Biosphere;
+import src.main.java.Critter;
 
 public class Biosphere
 {
@@ -20,8 +22,8 @@ public class Biosphere
     boolean birthThisTurn = false;
     int tamX;
     int tamY;
-    boolean tamExists = false;
-    boolean regularRules = true;
+    public boolean tamExists = false;
+    public boolean regularRules = true;
     //Original code written by James Tam, don't modify
     public Biosphere(Critter [][] aWorld)
     {
