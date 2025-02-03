@@ -1,8 +1,9 @@
+package src.main.java;
 /* As needed students can write additional methods and add attributes */
 import java.util.Scanner;
 public class ProsperousBiosphere extends Biosphere // Students can't change this inheritance relation.
 {
-	boolean gameGoing = true;
+	public boolean gameGoing = true;
 	boolean waitingTurn = true;
 	String nextTurn;
 	Scanner in = new Scanner(System.in);
