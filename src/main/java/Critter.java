@@ -1,3 +1,4 @@
+package src.main.java;
 /* As needed students can write additional methods and add attributes */
 
 public class Critter
@@ -14,7 +15,7 @@ public class Critter
     //Students can make any changes.
     public Critter ()
     {
-	setAppearance(DEFAULT_APPEARANCE);
+	setAppearance(EMPTY);
     }
 
     public Critter(char ch)
