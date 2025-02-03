@@ -1,7 +1,5 @@
 package src.main.java;
 /* As needed students can write additional methods and add attributes */
-import src.main.java.Biosphere;
-import src.main.java.Critter;
 
 public class Biosphere
 {
@@ -112,6 +110,8 @@ public class Biosphere
 		}
 		System.out.println(LINE+"\t"+LINE+"\t"+LINE);
     }
+
+	//this should be the next big refactor
     public Critter copyCritter(char letter) {
     	Critter C = null;
     	Critter T = null;
