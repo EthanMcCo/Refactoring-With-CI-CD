@@ -15,7 +15,7 @@ public class Biosphere
     public Critter [][] second = new Critter[ROWS][COLS];//Second state
     public Critter [][] prev = new Critter[ROWS][COLS];
 	public Critter [][] tamState = new Critter[ROWS][COLS];		//rather than having a tamState array in the Taminator class move it here
-    Critter [] critterLoc= new Critter[100];
+    public Critter [] critterLoc= new Critter[100];
     int critterCount = 0;
     int turnSinceBirth = 0;
     boolean gameRunning = true;

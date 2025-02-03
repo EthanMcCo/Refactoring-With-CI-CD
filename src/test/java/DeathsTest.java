@@ -11,6 +11,22 @@ public class DeathsTest {
     private Biosphere bio;  
     private Critter [][] world = new Critter[Biosphere.ROWS][Biosphere.COLS];
 
+    //when doing death testing we have to reference the critterLoc[] array rather than the second[][]
+    //state array because second state initializes to be empty which we cannot change without changing the program
+    //this is desired functionality.
+
+    /*
+    update locations updates critterLoc[] by counting rows down first then moving right
+
+    world after running updateLocations:
+    **
+    *
+    *
+
+    critterLoc[] index for the critter at [0][1] will actually be in position critterLoc[3] since it counts everything in 
+    row 0 first
+    */
+
     //a method that will help with testing initializes an array to just have empty critters
 	public void initArray(Critter[][] array){
 		for (int i = 0; i < Biosphere.ROWS; i++) {
@@ -38,9 +54,9 @@ public class DeathsTest {
 
     @Test
     public void basicDeath(){
-        bio.deaths(0);  //hardcodes 0 as the index since this will be the [0][0] critter which should spawn critter in [1][1]
+        bio.deaths(4);  //hardcodes 0 as the index since this will be the [0][0] critter which should spawn critter in [1][1]
         //births applies changes to "second" state
-        char deadCritter = bio.second[1][1].getAppearance();    //gets the appearance of [1][1] after births function applied
+        char deadCritter = bio.critterLoc[4].getAppearance();    //gets the appearance of [1][1] after births function applied
         if(deadCritter != ' '){
             fail("A critter was supposed to die at [1][1]");
         }
@@ -50,19 +66,38 @@ public class DeathsTest {
     @Test
     public void edgeCaseDeath(){
         try {
-            bio.deaths(2);  //makes the critter at [0][1] check it's death condition} catch (IndexOutOfBoundsException e) {
+            bio.deaths(1);  //makes the critter at [0][1] check it's death condition} catch (IndexOutOfBoundsException e) {
         } catch(IndexOutOfBoundsException e) {
             fail("Threw an index out of bounds exception");
         }
-        char deadCritter = bio.second[0][1].getAppearance();
+        char deadCritter = bio.critterLoc[1].getAppearance();
         if (deadCritter != ' ') fail("A critter was supposed to die at [0][1]");
     }
 
     //tests to see if a cell will die with 2 neighbours
     @Test
     public void twoNeighboursDeath(){
-        bio.deaths(4); //checks the death condition of cell at [0][2]
-        char deadCritter = bio.second[0][2].getAppearance();
+        bio.deaths(2); //checks the death condition of cell at [0][2]
+        char deadCritter = bio.critterLoc[2].getAppearance();
         if(deadCritter == ' ') fail("Critter at [0][2] was not supposed to die with 2 neighbours");
-    } 
+    }
+
+    //tests to see if a cell will die with 1 neighbour
+    @Test
+    public void oneNeighbourDeath(){
+        /*
+        World in this test testing if death on [0][3]:
+        **
+        **
+        *
+        *
+
+        */
+        world[0][3].setAppearance('*');
+        bio.updateLocations();
+        bio.deaths(3); //checks the death condition of cell at [0][3]
+        char deadCritter = bio.critterLoc[3].getAppearance();
+        if(deadCritter != ' ') fail("Critter at [0][3] was supposed to die with 1 neighbour");
+    }  
+    
 }
