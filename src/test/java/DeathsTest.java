@@ -116,7 +116,7 @@ public class DeathsTest {
         world[0][3].setAppearance(' ');
         bio.updateLocations();
         bio.births(0); //should spawn a critter at [1][1]
-        if(bio.second[1][1].getAppearance() != '*') fail("Didnt spawn a critter at [1][1]");
+        if(bio.changes[1][1].getAppearance() != '*') fail("Didnt spawn a critter at [1][1]");
         bio.deaths(2);  //should kill the critter at [0][2] since it has 1 neighbour
         if(bio.critterLoc[2].getAppearance() != ' ') fail("Critter at [0][2] did not die with new born at [1][1]");
     }
@@ -145,7 +145,7 @@ public class DeathsTest {
 
         */
         bio.births(0); //should spawn a critter at [0][1]
-        if(bio.second[0][1].getAppearance() != '*') fail("Was supposed to spawn critter at [0][1] death at [0][2] not handled properly");
+        if(bio.changes[0][1].getAppearance() != '*') fail("Was supposed to spawn critter at [0][1] death at [0][2] not handled properly");
     }
     
 }
