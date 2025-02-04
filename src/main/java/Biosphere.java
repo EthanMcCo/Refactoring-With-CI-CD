@@ -6,7 +6,6 @@ public class Biosphere
     public static final int ROWS = 10;
     public static final int COLS = 10;
     public static final String LINE = "  - - - - - - - - - -";
-    public static final String HORIZONTAL_COUNT = "  0 1 2 3 4 5 6 7 8 9 ";
     Taminator tam = new Taminator();
     public Critter [][] current; 						   //state where we look to apply birth/death rules and apply them to changes[][]
     public Critter [][] changes = new Critter[ROWS][COLS];  //state where all the changes are applied INTO
