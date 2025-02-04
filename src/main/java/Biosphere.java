@@ -9,7 +9,7 @@ public class Biosphere
     public static final String LINE = "  - - - - - - - - - -";
     public static final String HORIZONTAL_COUNT = "  0 1 2 3 4 5 6 7 8 9 ";
     Taminator tam = new Taminator();
-    public Critter [][] current; 						   //state where we look to apply birth/death rules and apply them to second
+    public Critter [][] current; 						   //state where we look to apply birth/death rules and apply them to changes[][]
     public Critter [][] changes = new Critter[ROWS][COLS];  //state where all the changes are applied INTO
     public Critter [][] prev = new Critter[ROWS][COLS];	   //the old version of current state
     public Critter [] critterLoc= new Critter[100];
@@ -29,6 +29,7 @@ public class Biosphere
 
     public Biosphere() { }
 
+	//initializes prev array and changes array to be empty spaces
 	private void initArrays(){
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
