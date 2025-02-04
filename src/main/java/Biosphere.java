@@ -39,8 +39,7 @@ public class Biosphere
 		}
 	}
 
-	//will combine multiple functions to run the next turn after birth/deaths applied
-	//also displays these changes to sysout
+	//will combine multiple functions to run the next turn after birth/deaths applied and print to sysout
 	public void runTurn(){
 		//display the headers for each state in sysout
 		displayHeaders();
@@ -113,27 +112,15 @@ public class Biosphere
 		System.out.println(LINE+"\t"+LINE+"\t"+LINE);
 	}
 
-	//this should be the next big refactor
-    public Critter copyCritter(char letter) {
-    	Critter C = null;
-    	Critter T = null;
-    	if((letter == ' ')||(letter == '*')) {
-			C = new Critter(letter);
-			return C;
-		}else {
-			T = new Taminator(letter);
-			return T;
-		}
-    }
+	//don't need the copyCritter array if all we're passing is a char
     public void copyArray(Critter[][] getCopy, Critter[][] setCopy) {//first value is going to be the copy and the second array is going to be the thing that's recieved the copy
     	for(int r = 0; r<ROWS; r++) {
     		for (int c = 0; c<COLS; c++) {
-    			getCopy[r][c] = copyCritter(setCopy[r][c].getAppearance());
+    			getCopy[r][c].setAppearance(setCopy[r][c].getAppearance());
     		}
     	}
     }  
 
-	//count neighbors
 	//function returns the number of neighbors of a cell given the x/y coordinate
 	public int numNeighbors(int x, int y, Critter[][] world){
 		int neighbors = 0;
