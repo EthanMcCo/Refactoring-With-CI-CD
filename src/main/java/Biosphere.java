@@ -1,5 +1,4 @@
 package src.main.java;
-/* As needed students can write additional methods and add attributes */
 
 public class Biosphere
 {
@@ -7,7 +6,6 @@ public class Biosphere
     public static final int ROWS = 10;
     public static final int COLS = 10;
     public static final String LINE = "  - - - - - - - - - -";
-    public static final String HORIZONTAL_COUNT = "  0 1 2 3 4 5 6 7 8 9 ";
     Taminator tam = new Taminator();
     public Critter [][] current; 						   //state where we look to apply birth/death rules and apply them to changes[][]
     public Critter [][] changes = new Critter[ROWS][COLS];  //state where all the changes are applied INTO
@@ -20,7 +18,7 @@ public class Biosphere
     int tamY;
     public boolean tamExists = false;
     public boolean regularRules = true;
-    //Original code written by James Tam, don't modify
+
     public Biosphere(Critter [][] aWorld)
     {
         current = aWorld;
@@ -39,8 +37,7 @@ public class Biosphere
 		}
 	}
 
-	//will combine multiple functions to run the next turn after birth/deaths applied
-	//also displays these changes to sysout
+	//will combine multiple functions to run the next turn after birth/deaths applied and print to sysout
 	public void runTurn(){
 		//display the headers for each state in sysout
 		displayHeaders();
@@ -73,16 +70,6 @@ public class Biosphere
         }
         System.out.println();
 	}
-	//iterates through the critterLoc[] array and applies birth/deaths accordingly
-	public void birthsAndDeaths(){
-		copyArray(changes,current);	//before making changes to changes[][] ensure it starts at the same point as current[][]
-		for (int i = 0; i < critterCount; i++) {
-			births(i);
-			deaths(i);			
-		}
-		//will also apply the taminator changes
-		if(tamExists) tam.searchPerim(tamX, tamY, changes);	//kills cells in the radius around taminator then relocates taminator
-	}
 
 	public void printWorlds(){
 		int stateCounter = 0;	//tracks what state we're printing to sysout
@@ -113,27 +100,26 @@ public class Biosphere
 		System.out.println(LINE+"\t"+LINE+"\t"+LINE);
 	}
 
-	//this should be the next big refactor
-    public Critter copyCritter(char letter) {
-    	Critter C = null;
-    	Critter T = null;
-    	if((letter == ' ')||(letter == '*')) {
-			C = new Critter(letter);
-			return C;
-		}else {
-			T = new Taminator(letter);
-			return T;
+	//iterates through the critterLoc[] array and applies birth/deaths accordingly
+	public void birthsAndDeaths(){
+		copyArray(changes,current);	//before making changes to changes[][] ensure it starts at the same point as current[][]
+		for (int i = 0; i < critterCount; i++) {
+			births(i);
+			deaths(i);			
 		}
-    }
+		//will also apply the taminator changes
+		if(tamExists) tam.searchPerim(tamX, tamY, changes);	//kills cells in the radius around taminator then relocates taminator
+	}
+
+	//don't need the copyCritter array if all we're passing is a char
     public void copyArray(Critter[][] getCopy, Critter[][] setCopy) {//first value is going to be the copy and the second array is going to be the thing that's recieved the copy
     	for(int r = 0; r<ROWS; r++) {
     		for (int c = 0; c<COLS; c++) {
-    			getCopy[r][c] = copyCritter(setCopy[r][c].getAppearance());
+    			getCopy[r][c].setAppearance(setCopy[r][c].getAppearance());
     		}
     	}
     }  
 
-	//count neighbors
 	//function returns the number of neighbors of a cell given the x/y coordinate
 	public int numNeighbors(int x, int y, Critter[][] world){
 		int neighbors = 0;
@@ -184,10 +170,9 @@ public class Biosphere
     }
 	//searches through the world and updates an array that tracks critters
     public void updateLocations() {
-    	int r,c;
     	critterCount = 0;
-    	for(r=0;r<ROWS;r++) {
-    		for(c=0;c<COLS;c++) {
+    	for(int r=0;r<ROWS;r++) {
+    		for(int c=0;c<COLS;c++) {
     			if(current[r][c].getAppearance() == '*') {
 					critterLoc[critterCount] = new Critter(r,c,'*');
 					critterCount++;
