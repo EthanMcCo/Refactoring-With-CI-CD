@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		regular.display();
+		regular.runTurn();
 		repaint();
 		timer.stop();
 		
