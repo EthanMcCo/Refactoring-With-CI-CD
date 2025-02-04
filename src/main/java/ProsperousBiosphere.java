@@ -14,7 +14,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     public ProsperousBiosphere (){}
     public void runTurn() {
     	updateLocations();
-    	copyArray(second,current);
+    	copyArray(changes,current);
     	for(int i = 0; i<critterCount; i++) {
     		prosperousBirths(i);
     		prosperousDeaths(i);
@@ -43,7 +43,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     		for(int r = row-1; r<row+2;r++) {
     			for(int c = col-1; c<col+2;c++ ) {
     				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
-    					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
+    					if(changes[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
     						int tempRow = r;
     						int tempCol = c;
     						for(int y = tempRow-1; y<tempRow+2;y++) {
@@ -52,15 +52,13 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     									if(current[y][x].getAppearance() == '*') {
     										neighbours++;
     										if(neighbours == 4) {
-    											second[tempRow][tempCol].setAppearance('*');
-    											critterLoc[critterCount] = new Critter(tempRow,tempCol,true,'*');
+    											changes[tempRow][tempCol].setAppearance('*');
+    											critterLoc[critterCount] = new Critter(tempRow,tempCol,'*');
     											critterCount++;
-    											birthThisTurn = true;
     										} else if(neighbours == 5) {
-    											second[tempRow][tempCol].setAppearance(' ');
-    											critterLoc[critterCount] = new Critter(tempRow,tempCol,false,' ');
+    											changes[tempRow][tempCol].setAppearance(' ');
+    											critterLoc[critterCount] = new Critter(tempRow,tempCol,' ');
     											critterCount--;
-    											birthThisTurn = false;
     										} 
     									}
     								}
@@ -78,7 +76,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     	int c;
     	int row,col;
     	int neighbours = 0;
-    	if((critterLoc[index].getAppearance() == '*')&&(critterLoc[index].getBirth() == false)) {
+    	if((critterLoc[index].getAppearance() == '*')) {
     		row = critterLoc[index].getRow();
     		col = critterLoc[index].getCol();
     		
@@ -93,7 +91,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
         	}
     		neighbours--;//Deletes when it counts itself
     		if((neighbours < 1)&&(neighbours > 4)) {
-    			second[row][col].setAppearance(' ');
+    			changes[row][col].setAppearance(' ');
     			critterLoc[index].setAppearance(' ');
     		}
     	}

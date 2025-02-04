@@ -9,15 +9,13 @@ public class Biosphere
     public static final String LINE = "  - - - - - - - - - -";
     public static final String HORIZONTAL_COUNT = "  0 1 2 3 4 5 6 7 8 9 ";
     Taminator tam = new Taminator();
-    public Critter [][] current; 
-    public Critter [][] second = new Critter[ROWS][COLS];//Second state
-    public Critter [][] prev = new Critter[ROWS][COLS];
-	public Critter [][] tamState = new Critter[ROWS][COLS];		//rather than having a tamState array in the Taminator class move it here
+    public Critter [][] current; 						   //state where we look to apply birth/death rules and apply them to changes[][]
+    public Critter [][] changes = new Critter[ROWS][COLS];  //state where all the changes are applied INTO
+    public Critter [][] prev = new Critter[ROWS][COLS];	   //the old version of current state
     public Critter [] critterLoc= new Critter[100];
     int critterCount = 0;
     int turnSinceBirth = 0;
     boolean gameRunning = true;
-    boolean birthThisTurn = false;
     int tamX;
     int tamY;
     public boolean tamExists = false;
@@ -31,10 +29,11 @@ public class Biosphere
 
     public Biosphere() { }
 
+	//initializes prev array and changes array to be empty spaces
 	private void initArrays(){
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
-				this.second[i][j] = new Critter();
+				this.changes[i][j] = new Critter();
 				this.prev[i][j] = new Critter();
 			}
 		}
@@ -61,15 +60,15 @@ public class Biosphere
         worldBody();
         System.out.print(" ");
 		
-        copyArray(prev, current);
-        copyArray(current,tamState);
+        copyArray(prev, current);	//gives the previous state the old state without changes
+        copyArray(current, changes);	//gives the current state the second state that has changes applied
     }
 
     public void worldBody() {
     	int cCounter = 0;
     	if(regularRules) {
     		updateLocations();
-        	copyArray(second,current);
+        	copyArray(changes,current);
     		for (int i =0; i<critterCount;i++) {//applies deaths and births to second[][]
         		births(i);
         		deaths(i);
@@ -77,9 +76,9 @@ public class Biosphere
     	}
     	findT();	//finds that taminator and updates our classes variables for it's X/Y/if it exists
     	if(tamExists) {
-    		tam.searchPerim(tamX, tamY, second);	//searches the perimeter of the Taminator deleting cells around it
+    		tam.searchPerim(tamX, tamY, changes);	//searches the perimeter of the Taminator deleting cells around it
     	}
-		copyArray(tamState, second); //copies the changes made to second into our new tamState array
+		
 		for(int r = 0; r<ROWS;r++) {
 			for(int i = 0; i<3; i++) {
 				System.out.print(LINE);
@@ -92,9 +91,9 @@ public class Biosphere
 				if (cCounter == 0) {
 					System.out.print("|"+current[r][c]);
 				} else if(cCounter ==1) {
-					System.out.print("|" +second[r][c]);
+					System.out.print("|" +changes[r][c]);
 				} else {
-					System.out.print("|"+tamState[r][c]);
+					System.out.print("|" +changes[r][c]);
 				}
 						
 				if ((c==9)&&(cCounter !=2)) {
@@ -134,7 +133,7 @@ public class Biosphere
     	int r,c;
     	for(r=0;r<ROWS;r++) {
     		for(c=0;c<COLS;c++) {
-    			if (second[r][c].getAppearance() == 'T') {
+    			if (changes[r][c].getAppearance() == 'T') {
 					tamX = r;
 					tamY = c;
 					tamExists = true;
@@ -168,14 +167,9 @@ public class Biosphere
 		for(int r = row-1; r<row+2;r++) {
 			for(int c = col-1; c<col+2;c++ ) {
 				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
-					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
+					if(changes[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
 						neighbours = numNeighbors(r, c, current);
-						if(neighbours == 3) {
-							second[r][c].setAppearance('*');
-							critterLoc[critterCount] = new Critter(r,c,true,'*');
-							critterCount++;
-							birthThisTurn = true;
-						}
+						if(neighbours == 3) changes[r][c].setAppearance('*');	//when there are 3 neighbours we spawn a critter
 						neighbours = 0;
 					} 
 				}
@@ -185,15 +179,15 @@ public class Biosphere
     public void deaths(int index) {
     	int row,col;
     	int neighbours = 0;
-    	if((critterLoc[index].getAppearance() == '*')&&(critterLoc[index].getBirth() == false)) {
+    	if((critterLoc[index].getAppearance() == '*')) {
     		row = critterLoc[index].getRow();
     		col = critterLoc[index].getCol();
 
 			neighbours = numNeighbors(row, col, current);
 
     		if((neighbours !=2) && (neighbours !=3)) {
-    			second[row][col].setAppearance(' ');
-    			critterLoc[index].setAppearance(' ');
+    			changes[row][col].setAppearance(' ');
+    			critterLoc[index].setAppearance(' ');		//will keep this line in for testing purposes
     		}
     	}
     }
@@ -204,7 +198,7 @@ public class Biosphere
     	for(r=0;r<ROWS;r++) {
     		for(c=0;c<COLS;c++) {
     			if(current[r][c].getAppearance() == '*') {
-					critterLoc[critterCount] = new Critter(r,c,false,'*');
+					critterLoc[critterCount] = new Critter(r,c,'*');
 					critterCount++;
 				} 
     		}
@@ -218,8 +212,8 @@ public class Biosphere
     {
         return(current);
     }
-    public Critter [][] getSecond(){
-    	return(second);
+    public Critter [][] getChanges(){
+    	return(changes);
     }
 
     //Original code written by James Tam

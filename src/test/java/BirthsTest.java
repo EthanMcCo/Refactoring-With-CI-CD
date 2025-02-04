@@ -38,7 +38,7 @@ public class BirthsTest {
     public void basicBirth(){
         bio.births(0);  //hardcodes 0 as the index since this will be the [0][0] critter which should spawn critter in [1][1]
         //births applies changes to "second" state
-        char newBorn = bio.second[1][1].getAppearance();    //gets the appearance of [1][1] after births function applied
+        char newBorn = bio.changes[1][1].getAppearance();    //gets the appearance of [1][1] after births function applied
         if(newBorn != '*'){
             fail("A critter was not born in the correct spot");
         }
@@ -57,7 +57,7 @@ public class BirthsTest {
         } catch (IndexOutOfBoundsException e) {
             fail("Index out of bounds on edge case birth");
         }
-        char newBorn = bio.second[0][1].getAppearance();
+        char newBorn = bio.changes[0][1].getAppearance();
         if(newBorn != '*') fail("Was supposed to spawn critter at [0][1]");
     }
 
@@ -70,7 +70,7 @@ public class BirthsTest {
         world[1][1] = new Critter('*');
         world[0][1].setAppearance(' ');
         bio.births(1); //checks the perimeter of [1][0] for birth conditions
-        char newBorn = bio.second[2][1].getAppearance(); //makes sure the cell with 2 neighbours remains dead
+        char newBorn = bio.changes[2][1].getAppearance(); //makes sure the cell with 2 neighbours remains dead
         if(newBorn == '*') fail("Spawned critter when there should be none");  
     }
 
@@ -78,7 +78,7 @@ public class BirthsTest {
     @Test
     public void oneNeighbourBirth(){
         bio.births(1); //checks the perimeter of [1][0] for birth conditions
-        char newBorn = bio.second[2][1].getAppearance(); //makes sure the cell with 1 neighbours remains dead
+        char newBorn = bio.changes[2][1].getAppearance(); //makes sure the cell with 1 neighbours remains dead
         if(newBorn == '*') fail("Spawned critter when there should be none");  
     }
 
@@ -92,7 +92,7 @@ public class BirthsTest {
         //then checking if a critter will spawn in [1][1]
         world[0][2].setAppearance('*');
         bio.births(0);
-        char newBorn = bio.second[1][1].getAppearance();
+        char newBorn = bio.changes[1][1].getAppearance();
         if(newBorn != ' ') fail("Birthed a critter that has 4 neighbours");
     }
 

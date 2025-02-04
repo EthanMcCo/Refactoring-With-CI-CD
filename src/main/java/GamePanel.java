@@ -33,9 +33,6 @@ public class GamePanel extends JPanel implements ActionListener{
 	Biosphere regular = new Biosphere(FileInitialization.read());
 	Timer timer;
 	Scanner in = new Scanner(System.in);
-	Critter[][] previousPanel = new Critter[regular.ROWS][regular.COLS];
-	Critter[][] secondPanel = new Critter[regular.ROWS][regular.COLS];
-	Critter[][] thirdPanel = new Critter[regular.ROWS][regular.COLS];
 	public GamePanel() {
 
 		// regular.copyArray(previousPanel,regular.current);
@@ -43,9 +40,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.setBackground(Color.gray);
 		this.setFocusable(true);
 		this.addKeyListener(new MyKeyAdapter());
-		
-		// regular.copyArray(secondPanel,regular.current);
-		// regular.copyArray(thirdPanel, regular.current);
+	
 		startGame();
 	}
 	
@@ -62,7 +57,7 @@ public class GamePanel extends JPanel implements ActionListener{
 
 		//Using the refactored helper window method instead of 3 seperate methods with duplicated code
 		drawWindow(g, MAIN_WIN_X, MAIN_WIN_Y, LARGE_WIN, LARGE_GRID, regular.current);
-		drawWindow(g, TAM_WIN_X, TAM_WIN_Y, SMALL_WIN, SMALL_GRID, regular.current);  //make this current for now but this needs to change to tam state
+		drawWindow(g, TAM_WIN_X, TAM_WIN_Y, SMALL_WIN, SMALL_GRID, regular.current);
 		drawWindow(g, PREV_WIN_X,PREV_WIN_Y,SMALL_WIN, SMALL_GRID, regular.prev);
 
 		//using helper function to draw in text/coordinates for each window
@@ -81,8 +76,8 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.fillRect(x,y, winSize, winSize);
 		//from the x/y starting point draw 10x10 or ROWSxROWS number of grid boxes
 		//draw either a T or a * or nothing
-		for (int r = 0; r<regular.ROWS; r++) {
-			for (int c = 0; c<regular.COLS; c++) {
+		for (int r = 0; r<Biosphere.ROWS; r++) {
+			for (int c = 0; c<Biosphere.COLS; c++) {
 				if(panel[r][c].getAppearance() == '*') {
 					//draws a yellow box if there is a cell here
 					g.setColor(Color.yellow);
@@ -112,7 +107,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	//this method will draw the coordinates/names
 	public void drawText(Graphics g, int x, int y, int gridSize, String winName){
 		//if our window is the main window it will use different dimensions
-		for (int r = 0; r<regular.ROWS; r++) {
+		for (int r = 0; r<Biosphere.ROWS; r++) {
 			if (gridSize == LARGE_GRID){
 				//drawing out coord nums across top/side
 				g.setColor(Color.black);
@@ -136,9 +131,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		regular.display();
-		
-		// regular.copyArray(secondPanel,regular.second);
-		// regular.copyArray(thirdPanel, regular.third);
 		repaint();
 		timer.stop();
 		
