@@ -63,7 +63,7 @@ public class GameOfLife
         		System.out.print("Sorry, '"+ruleSet+ "' is not a valid character.");
         	}
         	while(prosp.gameGoing) {	
-        		prosp.runTurn();
+        		prosp.next();
         	}
         }
         
