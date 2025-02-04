@@ -4,6 +4,9 @@ import java.util.Scanner;
 public class ProsperousBiosphere extends Biosphere // Students can't change this inheritance relation.
 {
 	public boolean gameGoing = true;
+	private final int lowerBoundDeaths = 1; //made constants that control the rules of this system
+	private final int uppderBoundDeaths = 4;
+	private final int neighboursForBirth = 4;
 	boolean waitingTurn = true;
 	String nextTurn;
 	Scanner in = new Scanner(System.in);
@@ -16,8 +19,8 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     	updateLocations();
     	copyArray(changes,current);
     	for(int i = 0; i<critterCount; i++) {
-    		births(i, 4);
-    		deaths(i, 1, 4);
+    		births(i, neighboursForBirth);
+    		deaths(i, lowerBoundDeaths, uppderBoundDeaths);
     	}
 		displayHeaders();
     	printWorlds();
