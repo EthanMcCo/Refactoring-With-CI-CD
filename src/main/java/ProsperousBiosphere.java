@@ -12,13 +12,14 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     	super(aWorld);
     }
     public ProsperousBiosphere (){}
-    public void runTurn() {
+    public void next() {
     	updateLocations();
     	copyArray(changes,current);
     	for(int i = 0; i<critterCount; i++) {
-    		prosperousBirths(i);
+    		births(i, 4);
     		prosperousDeaths(i);
     	}
+		displayHeaders();
     	printWorlds();
     	while(waitingTurn) {
     		System.out.println("Press 'n' then enter to start the next turn or 'x' to end the game.");

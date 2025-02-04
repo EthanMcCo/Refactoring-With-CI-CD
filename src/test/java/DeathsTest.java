@@ -54,7 +54,7 @@ public class DeathsTest {
 
     @Test
     public void basicDeath(){
-        bio.deaths(4);  //hardcodes 0 as the index since this will be the [0][0] critter which should spawn critter in [1][1]
+        bio.deaths(4, 2, 3);  //hardcodes 0 as the index since this will be the [0][0] critter which should spawn critter in [1][1]
         //births applies changes to "second" state
         char deadCritter = bio.critterLoc[4].getAppearance();    //gets the appearance of [1][1] after births function applied
         if(deadCritter != ' '){
@@ -66,7 +66,7 @@ public class DeathsTest {
     @Test
     public void edgeCaseDeath(){
         try {
-            bio.deaths(1);  //makes the critter at [0][1] check it's death condition} catch (IndexOutOfBoundsException e) {
+            bio.deaths(1, 2, 3);  //makes the critter at [0][1] check it's death condition} catch (IndexOutOfBoundsException e) {
         } catch(IndexOutOfBoundsException e) {
             fail("Threw an index out of bounds exception");
         }
@@ -77,7 +77,7 @@ public class DeathsTest {
     //tests to see if a cell will die with 2 neighbours
     @Test
     public void twoNeighboursDeath(){
-        bio.deaths(2); //checks the death condition of cell at [0][2]
+        bio.deaths(2, 2, 3); //checks the death condition of cell at [0][2]
         char deadCritter = bio.critterLoc[2].getAppearance();
         if(deadCritter == ' ') fail("Critter at [0][2] was not supposed to die with 2 neighbours");
     }
@@ -95,7 +95,7 @@ public class DeathsTest {
         */
         world[0][3].setAppearance('*');
         bio.updateLocations();
-        bio.deaths(3); //checks the death condition of cell at [0][3]
+        bio.deaths(3, 2, 3); //checks the death condition of cell at [0][3]
         char deadCritter = bio.critterLoc[3].getAppearance();
         if(deadCritter != ' ') fail("Critter at [0][3] was supposed to die with 1 neighbour");
     }  
@@ -115,9 +115,9 @@ public class DeathsTest {
         world[0][1].setAppearance(' ');
         world[0][3].setAppearance(' ');
         bio.updateLocations();
-        bio.births(0); //should spawn a critter at [1][1]
+        bio.births(0, 3); //should spawn a critter at [1][1]
         if(bio.changes[1][1].getAppearance() != '*') fail("Didnt spawn a critter at [1][1]");
-        bio.deaths(2);  //should kill the critter at [0][2] since it has 1 neighbour
+        bio.deaths(2, 2, 3);  //should kill the critter at [0][2] since it has 1 neighbour
         if(bio.critterLoc[2].getAppearance() != ' ') fail("Critter at [0][2] did not die with new born at [1][1]");
     }
 
@@ -144,7 +144,7 @@ public class DeathsTest {
          *
 
         */
-        bio.births(0); //should spawn a critter at [0][1]
+        bio.births(0, 3); //should spawn a critter at [0][1]
         if(bio.changes[0][1].getAppearance() != '*') fail("Was supposed to spawn critter at [0][1] death at [0][2] not handled properly");
     }
     

@@ -104,8 +104,8 @@ public class Biosphere
 	public void birthsAndDeaths(){
 		copyArray(changes,current);	//before making changes to changes[][] ensure it starts at the same point as current[][]
 		for (int i = 0; i < critterCount; i++) {
-			births(i);
-			deaths(i);			
+			births(i, 3);	//hard coding 3 for now
+			deaths(i, 2, 3);			
 		}
 		//will also apply the taminator changes
 		if(tamExists) tam.searchPerim(tamX, tamY, changes);	//kills cells in the radius around taminator then relocates taminator
@@ -136,7 +136,7 @@ public class Biosphere
 // Rather than iterating through all 100 squares then subsequently search all 8 squares around that to spot stars to see if that space 
 // matches the birth condition I decided it made more sense to just iterate through the 8 surrounding squares of all spaces next to a star.
 // if there's no star even near the spot you're checking for birth conditions why even check it just wastes memory/time.
-    public void births(int index) {
+    public void births(int index, int birthCond) {
     	int row,col;
     	int neighbours = 0; 
 		row = critterLoc[index].getRow(); //looks for a space around the critter at that index
@@ -146,14 +146,16 @@ public class Biosphere
 				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
 					if(changes[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
 						neighbours = numNeighbors(r, c, current);
-						if(neighbours == 3) changes[r][c].setAppearance('*');	//when there are 3 neighbours we spawn a critter
+						if(neighbours == birthCond) changes[r][c].setAppearance('*');	//when there are 3 neighbours we spawn a critter
 						neighbours = 0;
 					} 
 				}
 			}
 		}
     }
-    public void deaths(int index) {
+
+	//create lower/upper bounds for how many neighbours there can be before they die
+    public void deaths(int index, int deathLower, int deathUpper) {
     	int row,col;
     	int neighbours = 0;
     	if((critterLoc[index].getAppearance() == '*')) {
@@ -162,7 +164,7 @@ public class Biosphere
 
 			neighbours = numNeighbors(row, col, current);
 
-    		if((neighbours !=2) && (neighbours !=3)) {
+    		if((neighbours < deathLower) || (neighbours > deathUpper)) {
     			changes[row][col].setAppearance(' ');
     			critterLoc[index].setAppearance(' ');		//will keep this line in for testing purposes
     		}
