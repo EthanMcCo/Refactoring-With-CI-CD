@@ -86,7 +86,7 @@ public class Biosphere
 	}
 
 	public void printWorlds(){
-		int cCounter = 0;
+		int stateCounter = 0;	//tracks what state we're printing to sysout
 		for(int r = 0; r<ROWS;r++) {
 			for(int i = 0; i<3; i++) {
 				System.out.print(LINE);
@@ -95,23 +95,20 @@ public class Biosphere
 			System.out.println();
 			System.out.print(r);
 			for(int c = 0; c<COLS;c++) {
-				if (cCounter == 0) {
+				if (stateCounter == 0) {
 					System.out.print("|"+current[r][c]);
-				} else if(cCounter ==1) {
-					System.out.print("|" +changes[r][c]);
 				} else {
 					System.out.print("|" +changes[r][c]);
 				}
 						
-				if ((c==9)&&(cCounter !=2)) {
-					
+				if ((c==9)&&(stateCounter !=2)) {
 					System.out.print("|\t");
 					System.out.print(r);
 					c=-1;
-					cCounter++;
+					stateCounter++;
 				}
 			}
-			cCounter = 0;
+			stateCounter = 0;
 			System.out.println("|");
 		}
 		System.out.println(LINE+"\t"+LINE+"\t"+LINE);
