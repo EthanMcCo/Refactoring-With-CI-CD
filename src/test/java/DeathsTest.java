@@ -99,5 +99,53 @@ public class DeathsTest {
         char deadCritter = bio.critterLoc[3].getAppearance();
         if(deadCritter != ' ') fail("Critter at [0][3] was supposed to die with 1 neighbour");
     }  
+    //calling births then applying deaths to see if a recently born critter effects the death of 
+    //a critter that was supposed to die
+    /*
+        World in this test testing if death on [0][2] when critter born on [1][1]:
+        **
+        
+        *
+        *
+
+        */
+    @Test
+    public void birthAndDeath(){
+        world[1][1].setAppearance(' ');
+        world[0][1].setAppearance(' ');
+        world[0][3].setAppearance(' ');
+        bio.updateLocations();
+        bio.births(0); //should spawn a critter at [1][1]
+        if(bio.second[1][1].getAppearance() != '*') fail("Didnt spawn a critter at [1][1]");
+        bio.deaths(2);  //should kill the critter at [0][2] since it has 1 neighbour
+        if(bio.critterLoc[2].getAppearance() != ' ') fail("Critter at [0][2] did not die with new born at [1][1]");
+    }
+
+    //testing if a second round of births/deaths things will work properly
+    
+    /*
+        World in this test testing if death on [0][2] when critter born on [1][1]:
+        **
+        
+        *
+        *
+
+    */
+    @Test
+    public void twoRoundsDeaths(){
+        world[1][1].setAppearance(' ');
+        world[0][1].setAppearance(' ');
+        world[0][3].setAppearance(' ');
+        bio.updateLocations();
+        bio.display(); //applies all births/deaths for every critter
+        /*new world after changes should be:
+        
+        **
+         *
+
+        */
+        bio.births(0); //should spawn a critter at [0][1]
+        if(bio.second[0][1].getAppearance() != '*') fail("Was supposed to spawn critter at [0][1] death at [0][2] not handled properly");
+    }
     
 }

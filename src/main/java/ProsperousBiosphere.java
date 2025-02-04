@@ -53,14 +53,12 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     										neighbours++;
     										if(neighbours == 4) {
     											second[tempRow][tempCol].setAppearance('*');
-    											critterLoc[critterCount] = new Critter(tempRow,tempCol,true,'*');
+    											critterLoc[critterCount] = new Critter(tempRow,tempCol,'*');
     											critterCount++;
-    											birthThisTurn = true;
     										} else if(neighbours == 5) {
     											second[tempRow][tempCol].setAppearance(' ');
-    											critterLoc[critterCount] = new Critter(tempRow,tempCol,false,' ');
+    											critterLoc[critterCount] = new Critter(tempRow,tempCol,' ');
     											critterCount--;
-    											birthThisTurn = false;
     										} 
     									}
     								}
@@ -78,7 +76,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     	int c;
     	int row,col;
     	int neighbours = 0;
-    	if((critterLoc[index].getAppearance() == '*')&&(critterLoc[index].getBirth() == false)) {
+    	if((critterLoc[index].getAppearance() == '*')) {
     		row = critterLoc[index].getRow();
     		col = critterLoc[index].getCol();
     		

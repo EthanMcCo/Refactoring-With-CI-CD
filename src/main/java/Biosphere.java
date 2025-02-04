@@ -17,7 +17,6 @@ public class Biosphere
     int critterCount = 0;
     int turnSinceBirth = 0;
     boolean gameRunning = true;
-    boolean birthThisTurn = false;
     int tamX;
     int tamY;
     public boolean tamExists = false;
@@ -170,12 +169,7 @@ public class Biosphere
 				if((r <= 9)&&(c <= 9)&&(r > - 1)&&(c > -1)) {//ensuring r/c is in the world
 					if(second[r][c].getAppearance() == ' ') {//makes sure it only checks the perimeter for the birth condition if it's a space
 						neighbours = numNeighbors(r, c, current);
-						if(neighbours == 3) {
-							second[r][c].setAppearance('*');
-							critterLoc[critterCount] = new Critter(r,c,true,'*');
-							critterCount++;
-							birthThisTurn = true;
-						}
+						if(neighbours == 3) second[r][c].setAppearance('*');	//when there are 3 neighbours we spawn a critter
 						neighbours = 0;
 					} 
 				}
@@ -185,7 +179,7 @@ public class Biosphere
     public void deaths(int index) {
     	int row,col;
     	int neighbours = 0;
-    	if((critterLoc[index].getAppearance() == '*')&&(critterLoc[index].getBirth() == false)) {
+    	if((critterLoc[index].getAppearance() == '*')) {
     		row = critterLoc[index].getRow();
     		col = critterLoc[index].getCol();
 
@@ -193,7 +187,7 @@ public class Biosphere
 
     		if((neighbours !=2) && (neighbours !=3)) {
     			second[row][col].setAppearance(' ');
-    			critterLoc[index].setAppearance(' ');
+    			critterLoc[index].setAppearance(' ');		//will keep this line in for testing purposes
     		}
     	}
     }
@@ -204,7 +198,7 @@ public class Biosphere
     	for(r=0;r<ROWS;r++) {
     		for(c=0;c<COLS;c++) {
     			if(current[r][c].getAppearance() == '*') {
-					critterLoc[critterCount] = new Critter(r,c,false,'*');
+					critterLoc[critterCount] = new Critter(r,c,'*');
 					critterCount++;
 				} 
     		}
