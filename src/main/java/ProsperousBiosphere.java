@@ -19,7 +19,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     		prosperousBirths(i);
     		prosperousDeaths(i);
     	}
-    	//display();
+    	printWorlds();
     	while(waitingTurn) {
     		System.out.println("Press 'n' then enter to start the next turn or 'x' to end the game.");
         	nextTurn = in.nextLine();
