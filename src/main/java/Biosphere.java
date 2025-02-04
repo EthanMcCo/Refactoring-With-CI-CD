@@ -81,7 +81,6 @@ public class Biosphere
 			deaths(i);			
 		}
 		//will also apply the taminator changes
-		findT();
 		if(tamExists) tam.searchPerim(tamX, tamY, changes);	//kills cells in the radius around taminator then relocates taminator
 	}
 
@@ -133,18 +132,6 @@ public class Biosphere
     		}
     	}
     }  
-    public void findT() {
-    	int r,c;
-    	for(r=0;r<ROWS;r++) {
-    		for(c=0;c<COLS;c++) {
-    			if (changes[r][c].getAppearance() == 'T') {
-					tamX = r;
-					tamY = c;
-					tamExists = true;
-				}
-    		}
-    	}
-    }
 
 	//count neighbors
 	//function returns the number of neighbors of a cell given the x/y coordinate
@@ -204,7 +191,11 @@ public class Biosphere
     			if(current[r][c].getAppearance() == '*') {
 					critterLoc[critterCount] = new Critter(r,c,'*');
 					critterCount++;
-				} 
+				} else if (current[r][c].getAppearance() == 'T'){
+					tamX = r;
+					tamY = c;
+					tamExists = true;
+				}
     		}
     	}
     }
