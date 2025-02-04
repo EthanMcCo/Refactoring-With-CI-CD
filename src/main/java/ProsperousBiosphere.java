@@ -17,7 +17,7 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     	copyArray(changes,current);
     	for(int i = 0; i<critterCount; i++) {
     		births(i, 4);
-    		prosperousDeaths(i);
+    		deaths(i, 1, 4);
     	}
 		displayHeaders();
     	printWorlds();
