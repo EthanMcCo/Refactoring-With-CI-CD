@@ -1,5 +1,4 @@
 package src.main.java;
-/* As needed students can write additional methods and add attributes */
 
 public class Biosphere
 {
@@ -20,7 +19,7 @@ public class Biosphere
     int tamY;
     public boolean tamExists = false;
     public boolean regularRules = true;
-    //Original code written by James Tam, don't modify
+
     public Biosphere(Critter [][] aWorld)
     {
         current = aWorld;
@@ -72,16 +71,6 @@ public class Biosphere
         }
         System.out.println();
 	}
-	//iterates through the critterLoc[] array and applies birth/deaths accordingly
-	public void birthsAndDeaths(){
-		copyArray(changes,current);	//before making changes to changes[][] ensure it starts at the same point as current[][]
-		for (int i = 0; i < critterCount; i++) {
-			births(i);
-			deaths(i);			
-		}
-		//will also apply the taminator changes
-		if(tamExists) tam.searchPerim(tamX, tamY, changes);	//kills cells in the radius around taminator then relocates taminator
-	}
 
 	public void printWorlds(){
 		int stateCounter = 0;	//tracks what state we're printing to sysout
@@ -110,6 +99,17 @@ public class Biosphere
 			System.out.println("|");
 		}
 		System.out.println(LINE+"\t"+LINE+"\t"+LINE);
+	}
+
+	//iterates through the critterLoc[] array and applies birth/deaths accordingly
+	public void birthsAndDeaths(){
+		copyArray(changes,current);	//before making changes to changes[][] ensure it starts at the same point as current[][]
+		for (int i = 0; i < critterCount; i++) {
+			births(i);
+			deaths(i);			
+		}
+		//will also apply the taminator changes
+		if(tamExists) tam.searchPerim(tamX, tamY, changes);	//kills cells in the radius around taminator then relocates taminator
 	}
 
 	//don't need the copyCritter array if all we're passing is a char
@@ -171,10 +171,9 @@ public class Biosphere
     }
 	//searches through the world and updates an array that tracks critters
     public void updateLocations() {
-    	int r,c;
     	critterCount = 0;
-    	for(r=0;r<ROWS;r++) {
-    		for(c=0;c<COLS;c++) {
+    	for(int r=0;r<ROWS;r++) {
+    		for(int c=0;c<COLS;c++) {
     			if(current[r][c].getAppearance() == '*') {
 					critterLoc[critterCount] = new Critter(r,c,'*');
 					critterCount++;
