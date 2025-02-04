@@ -137,7 +137,7 @@ public class DeathsTest {
         world[0][1].setAppearance(' ');
         world[0][3].setAppearance(' ');
         bio.updateLocations();
-        bio.display(); //applies all births/deaths for every critter
+        bio.runTurn(); //applies all births/deaths for every critter
         /*new world after changes should be:
         
         **
