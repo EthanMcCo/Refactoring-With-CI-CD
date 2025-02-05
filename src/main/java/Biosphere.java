@@ -11,7 +11,7 @@ public class Biosphere
     public Critter [][] changes = new Critter[ROWS][COLS];  //state where all the changes are applied INTO
     public Critter [][] prev = new Critter[ROWS][COLS];	   //the old version of current state
     public Critter [] critterLoc= new Critter[100];
-    int critterCount = 0;
+    public int critterCount = 0;
     int turnSinceBirth = 0;
     boolean gameRunning = true;
     int tamX;
