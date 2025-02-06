@@ -35,7 +35,7 @@ package:
   stage: Package
   script:
     - mvn package
-    - cp game-of-life-refactored/target/game-of-life-refactored-1.0-SNAPSHOT.jar game-of-life-refactored-1.0-SNAPSHOT.jar
+    - cp target/game-of-life-refactored-1.0-SNAPSHOT.jar game-of-life-refactored-1.0-SNAPSHOT.jar
   artifacts:
     paths:
       - game-of-life-refactored-1.0-SNAPSHOT.jar
