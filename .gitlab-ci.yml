@@ -1,0 +1,49 @@
+#Apache Maven variables
+variables:
+  M2_HOME: ~/apache-maven-3.9.9
+  M2: $M2_HOME/bin
+  MAVEN_OPTS: "-Xms256m -Xmx512m"
+  
+#Add mvn to PATH environment variable
+before_script:
+  - export PATH=$PATH:$M2
+
+#Pipeline stages
+stages:
+  - Build
+  - Test
+  - Package
+
+#Compile program based on pom.xml
+build:
+  stage: Build
+  script:
+    - cd game-of-life-refactored
+    - mvn compile
+  tags:
+    - cpsc501
+
+#Test program based on pom.xml
+test:
+  stage: Test
+  script:
+    - cd game-of-life-refactored
+    - mvn test
+  tags:
+    - cpsc501
+
+#Package program based on pom.xml
+package:
+  stage: Package
+  script:
+    - cd game-of-life-refactored
+    - mvn package
+    - cd ..
+    - cp game-of-life-refactored/target/game-of-life-refactored-1.0-SNAPSHOT.jar game-of-life-refactored-1.0-SNAPSHOT.jar
+  artifacts:
+    paths:
+      - game-of-life-refactored-1.0-SNAPSHOT.jar
+  tags:
+    - cpsc501
+  only:
+    - main
