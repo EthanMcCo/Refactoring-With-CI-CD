@@ -18,7 +18,6 @@ stages:
 build:
   stage: Build
   script:
-    - cd game-of-life-refactored
     - mvn compile
   tags:
     - cpsc501
@@ -27,7 +26,6 @@ build:
 test:
   stage: Test
   script:
-    - cd game-of-life-refactored
     - mvn test
   tags:
     - cpsc501
@@ -36,9 +34,7 @@ test:
 package:
   stage: Package
   script:
-    - cd game-of-life-refactored
     - mvn package
-    - cd ..
     - cp game-of-life-refactored/target/game-of-life-refactored-1.0-SNAPSHOT.jar game-of-life-refactored-1.0-SNAPSHOT.jar
   artifacts:
     paths:
