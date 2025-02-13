@@ -24,7 +24,6 @@ The clarity of copyArray() was improved since now the logic for changing the app
 ## How does it enable future changes
 This change likely does not enable future changes due to its simplicity.
 
----
 
 # Births/Deaths Duplicate Code - SHA: 05c20e6a
 
@@ -68,7 +67,6 @@ Changes made from this refactor led into other changes as it made me identify th
 ## Additional information
 The SHA number for this refactor is 05c20e6a and the changes were made in the Births/deaths Duplicate code branch.
 
----
 
 # Births Dead Code - SHA: 34a609e5
 
@@ -102,7 +100,6 @@ The simplification of structure allowed a future change to make births() allow f
 ## Additional information
 This change was contained in the Dead-Code-Critters branch.
 
----
 
 # Terminator feature envy - SHA: 9f51730b
 
@@ -139,7 +136,6 @@ This refactor aided in a future change where I realized that having this third s
 ## Additional information
 The changes were made in the shotgun surgery branch before merging into main.
 
----
 
 # GUI Constants refactor - SHA: a614b4d0
 
@@ -179,7 +175,6 @@ By making these changes to the GUI constants it helped substantially when removi
 ## Additional information
 The changes to this file were made in the GUI-Duplicate-Code branch.
 
----
 
 # GUI Duplicate code - SHA: 373d88f2
 
@@ -217,7 +212,6 @@ If someone wanted to reposition the windows and change their size this would be 
 ## Additional information
 The changes to this file were made in the GUI-Duplicate-Code branch.
 
----
 
 # Long Method Game Runner - SHA: a67970f4
 
@@ -251,7 +245,6 @@ The refactorization led into the change of duplicate code between prosperous bio
 ## Additional information
 The changes were made in the temporary-field-copyArray branch.
 
----
 
 # Duplicate Code Prosperous Births/Deaths - SHA: 3f05a4a3
 
