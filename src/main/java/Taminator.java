@@ -1,4 +1,4 @@
-package src.main.java;
+
 import java.util.Random;
 
 /* As needed students can write additional methods and add attributes */

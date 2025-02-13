@@ -1,12 +1,9 @@
-package src.test.java;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import src.main.java.Biosphere;
-import src.main.java.Critter;
-import src.main.java.ProsperousBiosphere;
+
 public class ProsperousBirths {
     private ProsperousBiosphere bio;  
     private Critter [][] world = new Critter[Biosphere.ROWS][Biosphere.COLS];

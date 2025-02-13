@@ -1,11 +1,8 @@
-package src.test.java;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import src.main.java.Biosphere;
-import src.main.java.Critter;
 
 public class BirthsTest {
     private Biosphere bio;  

@@ -1,4 +1,4 @@
-package src.main.java;
+
 /* As needed students can write additional methods and add attributes */
 
 public class Critter

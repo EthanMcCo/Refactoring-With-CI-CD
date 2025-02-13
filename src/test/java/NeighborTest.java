@@ -1,21 +1,19 @@
-package src.test.java;
+
 
 import org.junit.Before;
 import org.junit.Test;
 
-import src.main.java.Biosphere;
-import src.main.java.Critter;
 
 import static org.junit.Assert.*;
 
 public class NeighborTest {
     private Biosphere bio = new Biosphere();  
-    private Critter [][] world = new Critter[bio.ROWS][bio.COLS];
+    private Critter [][] world = new Critter[Biosphere.ROWS][Biosphere.COLS];
 
     //a method that will help with testing initializes an array to just have empty critters
 	public void initArray(Critter[][] array){
-		for (int i = 0; i < bio.ROWS; i++) {
-			for (int j = 0; j < bio.COLS; j++) {
+		for (int i = 0; i < Biosphere.ROWS; i++) {
+			for (int j = 0; j < Biosphere.COLS; j++) {
 				array[i][j] = new Critter();
 			}
 		}

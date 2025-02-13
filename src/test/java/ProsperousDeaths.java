@@ -1,13 +1,10 @@
-package src.test.java;
+
 
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import src.main.java.Biosphere;
-import src.main.java.Critter;
-import src.main.java.ProsperousBiosphere;
 
 public class ProsperousDeaths {
     private ProsperousBiosphere bio;  
