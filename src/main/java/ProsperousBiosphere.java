@@ -33,7 +33,6 @@ public class ProsperousBiosphere extends Biosphere // Students can't change this
     		System.out.println("Press 'n' then enter to start the next turn or 'x' to end the game.");
         	nextTurn = in.nextLine();
         	if (nextTurn.equals("n")||(nextTurn.equals("N"))) {
-        		waitingTurn = true; 
         		break;
         	} else if (nextTurn.equals("x")||(nextTurn.equals("X"))){
 				this.gameGoing = false;

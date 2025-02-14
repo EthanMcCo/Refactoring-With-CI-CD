@@ -35,7 +35,17 @@ public class FileInputTests {
         System.setIn(fileInput);
         Biosphere bio = new Biosphere(FileInitialization.read()); //reads input
 
-        if(bio.current[0][0].getAppearance() != '*') fail("did not read file properly");
+        if(bio.current[0][0].getAppearance() != '*') fail("did not read file properly to spawn critter at 0 0");
+    }
+
+    //testing a file with a taminator
+    @Test
+    public void tamFile(){
+        ByteArrayInputStream fileInput = new ByteArrayInputStream("test1.txt".getBytes());
+        System.setIn(fileInput);
+        Biosphere bio = new Biosphere(FileInitialization.read()); //reads input
+
+        if(bio.current[0][1].getAppearance() != 'T') fail("did not read file properly to spawn Taminator at 0 1");
     }
 
     //testing what happens when the file is not found

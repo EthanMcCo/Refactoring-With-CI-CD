@@ -3,6 +3,9 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayInputStream;
+import java.util.Scanner;
+
 
 public class ProsperousBirths {
     private ProsperousBiosphere bio;  
@@ -105,4 +108,49 @@ public class ProsperousBirths {
         bio.births(1, 4); //should spawn a critter at [1][2]
         if(bio.changes[1][2].getAppearance() != '*') fail("Should have spawned a critter at [1][2] in second round of births");
     }
+
+    //testing births/deaths to ensure that next() works
+    //world:
+    /*
+         *
+        * 
+        * **
+     */
+    @Test
+    public void nextForBirthsAndDeaths(){
+        world[0][0].setAppearance(' ');
+        world[2][2].setAppearance('*');
+        world[2][3].setAppearance('*');
+        String inputs = "n\nx\n"; 
+        ByteArrayInputStream sysInput = new ByteArrayInputStream(inputs.getBytes());
+        System.setIn(sysInput);
+        bio.in = new Scanner(System.in);  //have to update the input
+        bio.updateLocations();
+        bio.next();   //this should spawn a critter at [1][1] which will make [1][2] have 4 neighbours
+        if(bio.changes[1][1].getAppearance() != '*') fail("Should have spawned a critter at [1][1]");
+    }
+
+    //testing births/deaths to ensure that next() works
+    //world:
+    /*
+        **
+        *  
+          **
+     */
+    @Test
+    public void twoRoundsNext(){
+        world[0][0].setAppearance('*');
+        world[2][2].setAppearance('*');
+        world[2][3].setAppearance('*');
+        String inputs = "n\nn\nx\n"; 
+        ByteArrayInputStream sysInput = new ByteArrayInputStream(inputs.getBytes());
+        System.setIn(sysInput);
+        bio.in = new Scanner(System.in);  //have to update the input
+        bio.updateLocations();
+        bio.next();   //this should spawn a critter at [1][1] and  which will make [1][2] have 4 neighbours
+        bio.next();
+        if(bio.changes[1][2].getAppearance() != '*') fail("Should have spawned a critter at [1][2]");
+    }
+
+
 }
