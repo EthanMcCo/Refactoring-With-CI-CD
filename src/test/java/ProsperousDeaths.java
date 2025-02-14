@@ -1,13 +1,10 @@
-package src.test.java;
+
 
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import src.main.java.Biosphere;
-import src.main.java.Critter;
-import src.main.java.ProsperousBiosphere;
 
 public class ProsperousDeaths {
     private ProsperousBiosphere bio;  
@@ -121,7 +118,8 @@ public class ProsperousDeaths {
 
         */
         bio.updateLocations();
-        if(bio.critterLoc[1].getAppearance() != '*') fail("Was supposed to spawn critter at [0][1] 2 rounds of death went wrong");
+        if(bio.current[0][1].getAppearance() != '*') fail("Was supposed to spawn critter at [0][1] 2 rounds of death went wrong");
+        if(bio.current[3][0].getAppearance() != '*') fail("was not supposed to kill critter at [3][0]");
     }
 
     //runs the next turn without waiting for sysout input so a test case can be run

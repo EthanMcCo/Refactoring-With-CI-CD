@@ -1,3 +1,8 @@
+This codebase was from my first year while taking the class CPSC 233.  The FileInitialization classes belong to James Tam my proffessor at the time.
+
+AI Acknowledgement: I used AI to help format the readme.md with the headers since exporting to .md from a google doc formatted everything poorly.
+I also used AI to extract images from a PDF version of my google doc so I could download the files as pngs and link the images contained in the git repo.
+Using image links generated massive links and didnt work right.  the extracted images are in images/extracted_code_image_X.png
 # copyCritter() Dead Code - SHA: 1fffee97
 
 ## Affected Files/methods
