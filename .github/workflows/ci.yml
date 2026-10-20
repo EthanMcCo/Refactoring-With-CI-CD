@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"   # match the Java version in your pom.xml
+          java-version: "21"   # match the Java version in your pom.xml
           cache: maven
       - run: mvn -B compile
 
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
           cache: maven
       - run: mvn -B test
 
@@ -44,10 +44,11 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
           cache: maven
       - run: mvn -B package
       - uses: actions/upload-artifact@v4
         with:
           name: game-of-life-refactored
           path: target/game-of-life-refactored-1.0-SNAPSHOT.jar
+
